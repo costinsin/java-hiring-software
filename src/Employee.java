@@ -11,6 +11,13 @@ public class Employee extends Consumer {
         this.salary = null;
     }
 
+    public Employee(User user, String companyName, Double salary) {
+        this.resume = user.resume;
+        this.friends = user.friends;
+        this.companyName = companyName;
+        this.salary = salary;
+    }
+
     public Employee(String companyName, Double salary) {
         super();
         this.companyName = companyName;

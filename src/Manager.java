@@ -7,6 +7,7 @@ public class Manager extends Employee {
 
     public Manager(User user) {
         super(user);
+        requests = new ArrayList<>();
     }
 
     public void process(Job job) {
@@ -21,9 +22,78 @@ public class Manager extends Employee {
         while (job.noPositions > 0) {
             if (i >= jobRequests.size())
                 break;
-            //TODO verify if user can be enrolled into company
+
+            /*// approve
+            if (Application.getInstance().users.contains((User) jobRequests.get(i).getValue1())) {
+                // Remove user
+                Application.getInstance().remove((User) jobRequests.get(i).getValue1());
+                job.noPositions--;
+
+                // Get company department
+                Company company = Application.getInstance().getCompany(this.companyName);
+                Department jobDepartment = null;
+                for (Department department : company.departments) {
+                    if (department.jobs.contains(jobRequests.get(i).getKey())) {
+                        jobDepartment = department;
+                        break;
+                    }
+                }
+
+                // Convert user to employee and add it to jobDepartment
+                assert jobDepartment != null;
+                jobDepartment.employees.add(new Employee((User) jobRequests.get(i).getValue1(), this.companyName, 5000.0));
+
+                // Remove observer from all companies
+                for (Company comp : Application.getInstance().companies) {
+                    comp.removeObserver((User) jobRequests.get(i).getValue1());
+                }
+            }*/
+            approve(jobRequests.get(0));
+
             i++;
         }
+
+        if (job.noPositions == 0) {
+            job.open = false;
+        }
+    }
+
+    public int approve(Request<Job, Consumer> request) {
+        if (Application.getInstance().users.contains((User) request.getValue1())) {
+            // Remove user
+            Application.getInstance().remove((User) request.getValue1());
+            request.getKey().noPositions--;
+
+            // Get company department
+            Company company = Application.getInstance().getCompany(this.companyName);
+            Department jobDepartment = null;
+            for (Department department : company.departments) {
+                if (department.jobs.contains(request.getKey())) {
+                    jobDepartment = department;
+                    break;
+                }
+            }
+
+            // Convert user to employee and add it to jobDepartment
+            if (jobDepartment == null)
+                return 1;
+            jobDepartment.employees.add(((User) request.getValue1()).convert(this.companyName, 5000.0));
+
+            // Remove observer from all companies
+            for (Company comp : Application.getInstance().companies) {
+                comp.removeObserver((User) request.getValue1());
+            }
+
+            // Remove request after it was processed
+            requests.remove(request);
+
+            return 0;
+        }
+        return 1;
+    }
+
+    public void deny(Request<Job, Consumer> request) {
+        requests.remove(request);
     }
 
     @Override

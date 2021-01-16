@@ -8,7 +8,8 @@ public class Job {
 
     public void apply(User user) {
         if (open && meetsRequirments(user)) {
-            // TODO find best recruiter to evaluate user
+            Recruiter recruiter = Application.getInstance().getCompany(companyName).getRecruiter(user);
+            recruiter.evaluate(this, user);
         }
     }
 

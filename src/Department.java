@@ -110,3 +110,21 @@ class Finance extends Department {
         return result;
     }
 }
+
+class DepartmentFactory {
+    public Department getDepartment(String type) {
+        if (type == null)
+            return null;
+
+        if (type.equalsIgnoreCase("IT"))
+            return new IT();
+        else if (type.equalsIgnoreCase("Management"))
+            return new Management();
+        else if (type.equalsIgnoreCase("Marketing"))
+            return new Marketing();
+        else if (type.equalsIgnoreCase("Finance"))
+            return new Finance();
+
+        return null;
+    }
+}

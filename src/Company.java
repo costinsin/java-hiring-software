@@ -1,10 +1,11 @@
 import java.util.*;
 
-public class Company {
+public class Company implements Subject{
     String name;
     Manager manager;
-    ArrayList<Department> departments;
-    ArrayList<Recruiter> recruiters;
+    ArrayList<Department> departments = new ArrayList<>();
+    ArrayList<Recruiter> recruiters = new ArrayList<>();
+    ArrayList<User> observers = new ArrayList<>();
 
     public void add(Department department) {
         departments.add(department);
@@ -105,4 +106,28 @@ public class Company {
     public int hashCode() {
         return Objects.hash(name, manager, departments, recruiters);
     }
+
+    @Override
+    public void addObserver(User user) {
+        observers.add(user);
+    }
+
+    @Override
+    public void removeObserver(User user) {
+        observers.remove(user);
+    }
+
+    @Override
+    public void notifyAllObservers(Notification notification) {
+        for (User observer : observers) {
+            observer.update(notification);
+        }
+    }
+}
+
+
+interface Subject {
+    void addObserver(User user);
+    void removeObserver(User user);
+    void notifyAllObservers(Notification notification);
 }

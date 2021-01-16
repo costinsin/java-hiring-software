@@ -18,7 +18,7 @@ public class Recruiter extends Employee implements Comparable<Recruiter> {
             }
         }
         assert currentCompany != null;
-        currentCompany.manager.requests.add(new Request<Job, Consumer>(job, user, this, score));
+        currentCompany.manager.requests.add(new Request<>(job, user, this, score));
         rating += 0.1;
         return (int) (rating * user.getTotalScore());
     }

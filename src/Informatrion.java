@@ -1,11 +1,12 @@
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
 class Informatrion {
-    private String lastName, firstName, email, phoneNumber, sex;
-    private Date birthDate;
-    private ArrayList<Language> languages;
+    private String lastName, firstName, email, phoneNumber, genre;
+    private LocalDate birthDate;
+    private ArrayList<Language> languages = new ArrayList<>();
 
     public String getLastName() {
         return lastName;
@@ -39,19 +40,19 @@ class Informatrion {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGenre() {
+        return genre;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -86,6 +87,11 @@ class Informatrion {
         public void setLevel(String level) {
             this.level = level;
         }
+
+        @Override
+        public String toString() {
+            return languageName + ", level " + level;
+        }
     }
 
     @Override
@@ -97,13 +103,13 @@ class Informatrion {
                 firstName.equals(that.firstName) &&
                 Objects.equals(email, that.email) &&
                 Objects.equals(phoneNumber, that.phoneNumber) &&
-                sex.equals(that.sex) &&
+                genre.equals(that.genre) &&
                 birthDate.equals(that.birthDate) &&
                 Objects.equals(languages, that.languages);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(lastName, firstName, email, phoneNumber, sex, birthDate, languages);
+        return Objects.hash(lastName, firstName, email, phoneNumber, genre, birthDate, languages);
     }
 }

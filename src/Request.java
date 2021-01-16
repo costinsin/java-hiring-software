@@ -1,6 +1,6 @@
 import java.util.Objects;
 
-public class Request<K, V> implements Comparable<Request> {
+public class Request<K, V> implements Comparable<Request<K, V>> {
     private K key;
     private V value1, value2;
     private Double score;
