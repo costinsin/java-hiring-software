@@ -12,7 +12,7 @@ public class LoginPage extends Page {
     private JButton loginButton;
 
     public LoginPage() {
-        User user = new User();
+       /* User user = new User();
         user.resume = new Consumer.Resume.ResumeBuilder("Costin", "Sin", "man", LocalDate.of(2000, 9, 23)).build();
         user.notifications.add(new Notification("Ai fost angajat de Bloomberg"));
         user.notifications.add(new Notification("Ai fost respins de Google"));
@@ -38,11 +38,11 @@ public class LoginPage extends Page {
         User recruiter = new User();
         recruiter.resume = new Consumer.Resume.ResumeBuilder("Andrei", "Mihailescu", "man", LocalDate.of(2000, 6, 21)).build();
 
-        Application.getInstance().add(applicant);
+        //Application.getInstance().add(applicant);
 
 
         company.manager.requests.add(new Request<Job, Consumer>(job, applicant, recruiter, 50.0));
-        Application.getInstance().add(company);
+        //Application.getInstance().add(company);*/
 
         loginButton.addActionListener(new ActionListener() {
             @Override
@@ -59,7 +59,7 @@ public class LoginPage extends Page {
                 }*/
 
                 Consumer foundUser = findUser(usernameField.getText());
-                if (foundUser == null) {
+                if (foundUser == null && !usernameField.getText().equalsIgnoreCase("admin")) {
                     JOptionPane.showMessageDialog(Frame.getInstance(), "Username does not exist");
                     return;
                 }
@@ -69,10 +69,10 @@ public class LoginPage extends Page {
                     changePage(new UserWelcomePage((User) foundUser).getPanel());
                 else if (foundUser instanceof Manager)
                     changePage(new ManagerWelcomePage((Manager) foundUser).getPanel());
-                /*else if (foundUser instanceof Employee)
-                    changePage();
+                else if (foundUser instanceof Employee)
+                    changePage(new UserWelcomePage(new User()).getPanel());
                 else if (usernameField.getText().equalsIgnoreCase("admin"))
-                    changePage();*/
+                    changePage(new AdminPage().getPanel());
             }
         });
     }
@@ -101,7 +101,7 @@ public class LoginPage extends Page {
             // Check company employee
             for(Department department : company.departments) {
                 for (Employee employee : department.employees) {
-                    String employeeUsername = company.manager.resume.informatrion.getFirstName() + company.manager.resume.informatrion.getLastName();
+                    String employeeUsername = employee.resume.informatrion.getFirstName() + employee.resume.informatrion.getLastName();
                     if (username.equalsIgnoreCase(employeeUsername)) {
                         return employee;
                     }

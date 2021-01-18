@@ -19,7 +19,7 @@ class Experience implements Comparable<Experience> {
     public Experience(Test.MyExperience experience) throws InvalidDatesException {
         this(
                 LocalDate.parse(experience.start_date, DateTimeFormatter.ofPattern("dd.MM.yyyy")),
-                LocalDate.parse(experience.end_date, DateTimeFormatter.ofPattern("dd.MM.yyyy")),
+                experience.end_date == null ? null : LocalDate.parse(experience.end_date, DateTimeFormatter.ofPattern("dd.MM.yyyy")),
                 experience.position,
                 experience.company
         );

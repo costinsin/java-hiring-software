@@ -8,6 +8,11 @@ public class Recruiter extends Employee implements Comparable<Recruiter> {
         rating = 5;
     }
 
+    public Recruiter(Test.MyConsumer consumer) throws InvalidDatesException {
+        super(consumer);
+        rating = 5;
+    }
+
     public int evaluate(Job job, User user) {
         double score = user.getTotalScore();
         Company currentCompany = null;
@@ -33,6 +38,11 @@ public class Recruiter extends Employee implements Comparable<Recruiter> {
         return 0;
         */
         return Double.compare(rating, o.rating);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 
     @Override

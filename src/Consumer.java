@@ -1,4 +1,5 @@
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 abstract class Consumer {
@@ -8,6 +9,33 @@ abstract class Consumer {
     public Consumer() {
         resume = new Resume();
         friends = new ArrayList<>();
+    }
+
+    public Consumer(Test.MyConsumer consumer) throws InvalidDatesException {
+        friends = new ArrayList<>();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        resume = new Resume.ResumeBuilder(
+                consumer.name.split(" ")[0],
+                consumer.name.split(" ")[1],
+                consumer.genre,
+                LocalDate.parse(consumer.date_of_birth, formatter)
+        ).email(consumer.email).phone(consumer.phone).build();
+
+        for (int i = 0; i < consumer.languages.size(); i++) {
+            Informatrion.Language language = new Informatrion.Language(
+                    consumer.languages.get(i),
+                    consumer.languages_level.get(i)
+            );
+            this.resume.informatrion.getLanguages().add(language);
+        }
+
+        for (Test.MyEducation education : consumer.education) {
+            this.resume.education.add(new Education(education));
+        }
+        for (Test.MyExperience experience : consumer.experience) {
+            this.resume.experience.add(new Experience(experience));
+        }
     }
 
     public void add(Education education) {
@@ -98,6 +126,22 @@ abstract class Consumer {
                 throw new ResumeIncompleteException();
         }
 
+        @Override
+        public String toString() {
+            StringBuilder result = new StringBuilder();
+
+            result.append("Name: ").append(this.informatrion.getFirstName()).append(" ").append(this.informatrion.getLastName()).append("\n")
+                    .append("Email: ").append(this.informatrion.getEmail()).append("\n")
+                    .append("Phone: ").append(this.informatrion.getPhoneNumber()).append("\n")
+                    .append("Genre: ").append(this.informatrion.getGenre()).append("\n")
+                    .append("Birth Date: ").append(this.informatrion.getBirthDate()).append("\n")
+                    .append("Languages: ").append(this.informatrion.getLanguages()).append("\n")
+                    .append("Education: ").append(this.education).append("\n")
+                    .append("Experience: ").append(this.experience).append("\n");
+
+            return result.toString();
+        }
+
         public static class ResumeIncompleteException extends Exception {
             public ResumeIncompleteException() {
                 super();
@@ -160,6 +204,11 @@ abstract class Consumer {
                 return resume;
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return this.resume.informatrion.getFirstName() + " " + this.resume.informatrion.getLastName();
     }
 
     @Override

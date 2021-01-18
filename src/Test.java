@@ -17,9 +17,15 @@ public class Test {
     public static void loadJSON(Application application) throws IOException, InvalidDatesException {
         Gson gson = new Gson();
 
-        Reader reader = new FileReader("./test/consumers.json");
+        MyApplication jsonObject = gson.fromJson(
+                new FileReader("./test/consumers.json"),
+                MyApplication.class
+        );
 
-        MyApplication jsonObject = gson.fromJson(reader, MyApplication.class);
+        ArrayList<String> companyList = gson.fromJson(
+                new FileReader("./test/companies.json"),
+                ArrayList.class
+        );
 
         Application instance = Application.getInstance();
 
@@ -27,8 +33,43 @@ public class Test {
             instance.add(new User(consumer));
         }
 
-        String[] companies = {"Google", "Amazon"};
+        for (String companyName : companyList) {
+            Company company = new Company(companyName);
 
+            // Search company's manager
+            for (MyConsumer manager : jsonObject.managers) {
+                if (manager.findCurrentExperience().company.equalsIgnoreCase(companyName)) {
+                    company.manager = new Manager(manager);
+                    break;
+                }
+            }
+
+            // Search company's employees
+            for (MyConsumer employee : jsonObject.employees) {
+                if (employee.findCurrentExperience().company.equalsIgnoreCase(companyName)) {
+                    for (Department department : company.departments) {
+                        if (department.getClass().getName().equalsIgnoreCase(employee.findCurrentExperience().department)) {
+                            department.add(new Employee(employee));
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Search company's recruiters
+            for (MyConsumer recruiter : jsonObject.recruiters) {
+                if (recruiter.findCurrentExperience().company.equalsIgnoreCase(companyName)) {
+                    for (Department department : company.departments) {
+                        if (department.getClass().getName().equalsIgnoreCase("IT")) {
+                            department.add(new Recruiter(recruiter));
+                            break;
+                        }
+                    }
+                }
+            }
+
+            instance.add(company);
+        }
     }
 
     public static class MyApplication {
@@ -50,6 +91,14 @@ public class Test {
         ArrayList<String> interested_companies;
         ArrayList<MyEducation> education;
         ArrayList<MyExperience> experience;
+
+        public MyExperience findCurrentExperience() {
+            for (MyExperience exp : experience) {
+                if (exp.end_date == null)
+                    return exp;
+            }
+            return null;
+        }
     }
 
     public static class MyEducation {
@@ -63,6 +112,7 @@ public class Test {
     public static class MyExperience {
         String company;
         String position;
+        String department;
         String start_date;
         String end_date;
     }
@@ -77,6 +127,7 @@ class Frame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(new LoginPage().getPanel());
         this.pack();
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 

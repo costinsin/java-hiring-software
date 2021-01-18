@@ -90,7 +90,7 @@ class Informatrion {
 
         @Override
         public String toString() {
-            return languageName + ", level " + level;
+            return languageName + " level " + level;
         }
     }
 

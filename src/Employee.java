@@ -24,12 +24,23 @@ public class Employee extends Consumer {
         this.salary = salary;
     }
 
+    public Employee(Test.MyConsumer consumer) throws InvalidDatesException {
+        super(consumer);
+        this.companyName = consumer.findCurrentExperience().company;
+        this.salary = consumer.salary;
+    }
+
     public Experience getCurrentExperience() {
         for (Experience experience : this.resume.experience) {
             if (experience.endDate == null)
                 return experience;
         }
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 
     @Override

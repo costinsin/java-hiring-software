@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class User extends Consumer implements Observer {
     ArrayList<String> wishlist;
@@ -22,29 +23,9 @@ public class User extends Consumer implements Observer {
     }
 
     public User(Test.MyConsumer consumer) throws InvalidDatesException {
-        super();
-        this.resume.informatrion.setFirstName(consumer.name.split(" ")[0]);
-        this.resume.informatrion.setLastName(consumer.name.split(" ")[1]);
-        this.resume.informatrion.setEmail(consumer.email);
-        this.resume.informatrion.setPhoneNumber(consumer.phone);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-        this.resume.informatrion.setBirthDate(LocalDate.parse(consumer.date_of_birth, formatter));
-        this.resume.informatrion.setGenre(consumer.genre);
-        for (int i = 0; i < consumer.languages.size(); i++) {
-            Informatrion.Language language = new Informatrion.Language(
-                    consumer.languages.get(i),
-                    consumer.languages_level.get(i)
-            );
-            this.resume.informatrion.getLanguages().add(language);
-        }
+        super(consumer);
         this.wishlist = consumer.interested_companies;
         this.notifications = new ArrayList<>();
-        for (Test.MyEducation education : consumer.education) {
-            this.resume.education.add(new Education(education));
-        }
-        for (Test.MyExperience experience : consumer.experience) {
-            this.resume.experience.add(new Experience(experience));
-        }
     }
 
     public Employee convert() {
@@ -72,8 +53,28 @@ public class User extends Consumer implements Observer {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        if (!super.equals(o)) return false;
+        User user = (User) o;
+        return Objects.equals(wishlist, user.wishlist) &&
+                Objects.equals(notifications, user.notifications);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), wishlist, notifications);
+    }
+
+    @Override
     public void update(Notification notification) {
         notifications.add(notification);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }
 

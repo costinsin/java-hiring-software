@@ -35,6 +35,11 @@ public abstract class Department {
     }
 
     @Override
+    public String toString() {
+        return this.getClass().getName() + " Department";
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Department)) return false;

@@ -7,6 +7,21 @@ public class Company implements Subject{
     ArrayList<Recruiter> recruiters = new ArrayList<>();
     ArrayList<User> observers = new ArrayList<>();
 
+    public Company() {
+        departments.add(new DepartmentFactory().getDepartment("IT"));
+        departments.add(new DepartmentFactory().getDepartment("Management"));
+        departments.add(new DepartmentFactory().getDepartment("Marketing"));
+        departments.add(new DepartmentFactory().getDepartment("Finance"));
+    }
+
+    public Company(String name) {
+        this.name = name;
+        departments.add(new DepartmentFactory().getDepartment("IT"));
+        departments.add(new DepartmentFactory().getDepartment("Management"));
+        departments.add(new DepartmentFactory().getDepartment("Marketing"));
+        departments.add(new DepartmentFactory().getDepartment("Finance"));
+    }
+
     public void add(Department department) {
         departments.add(department);
     }
@@ -89,6 +104,11 @@ public class Company implements Subject{
         }
 
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return this.name;
     }
 
     @Override

@@ -10,6 +10,11 @@ public class Manager extends Employee {
         requests = new ArrayList<>();
     }
 
+    public Manager(Test.MyConsumer consumer) throws InvalidDatesException {
+        super(consumer);
+        requests = new ArrayList<>();
+    }
+
     public void process(Job job) {
         ArrayList<Request<Job, Consumer>> jobRequests = new ArrayList<>();
         for (Request<Job, Consumer> request : requests) {
@@ -94,6 +99,11 @@ public class Manager extends Employee {
 
     public void deny(Request<Job, Consumer> request) {
         requests.remove(request);
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 
     @Override
