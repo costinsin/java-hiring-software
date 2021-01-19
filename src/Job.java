@@ -1,3 +1,5 @@
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Job {
@@ -7,22 +9,30 @@ public class Job {
     int noPositions;
 
     public void apply(User user) {
-        if (open /*&& meetsRequirments(user)*/) {
+        if (open && meetsRequirments(user)) {
             Recruiter recruiter = Application.getInstance().getCompany(companyName).getRecruiter(user);
             recruiter.evaluate(this, user);
-        }
+        } else
+            System.out.println(user.toString() + " does not qualify to " + companyName + " " + jobName);
     }
 
     public boolean meetsRequirments(User user) {
-        if (user.getGraduationYear() < graduationYear.lowerBound || user.getGraduationYear() > graduationYear.upperBound)
+        Integer gradYear = user.getGraduationYear();
+        if  (gradYear == null)
+            gradYear = LocalDate.now().getYear();
+        if (!graduationYear.respectsConstraint(gradYear.doubleValue())) {
+            System.out.print("Graduation year fail: ");
             return false;
-
-        if (user.getTotalScore() < experienceYears.lowerBound || user.getTotalScore() > experienceYears.lowerBound)
+        }
+        Double expYears = (user.getTotalScore() - user.meanGPA()) / 1.5;
+        if (!experienceYears.respectsConstraint(expYears)) {
+            System.out.print("Experience years fail: ");
             return false;
-
-        if (user.meanGPA() < GPA.lowerBound || user.meanGPA() > GPA.upperBound)
+        }
+        if (!GPA.respectsConstraint(user.meanGPA())) {
+            System.out.print("GPA fail: ");
             return false;
-
+        }
         return true;
     }
 

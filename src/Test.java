@@ -6,10 +6,7 @@ import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 public class Test {
     public static void main(String[] args) throws IOException, InvalidDatesException {
@@ -112,7 +109,15 @@ public class Test {
             for (User user : instance.users) {
                 job.apply(user);
             }
+            System.out.println();
         }
+
+        /*Collections.reverse(jobs);
+        for (Job job : jobs) {
+            for (Company company : instance.companies) {
+                company.manager.process(job);
+            }
+        }*/
     }
 
     public static class MyApplication {

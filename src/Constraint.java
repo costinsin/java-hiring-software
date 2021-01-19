@@ -8,6 +8,19 @@ public class Constraint {
         this.upperBound = upperBound;
     }
 
+    public boolean respectsConstraint(Double value) {
+        if (lowerBound == null)
+            lowerBound = Double.MIN_VALUE;
+        if (upperBound == null)
+            upperBound = Double.MAX_VALUE;
+        if (value == null)
+            return false;
+
+        if (lowerBound <= value && value <= upperBound)
+            return true;
+        return false;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

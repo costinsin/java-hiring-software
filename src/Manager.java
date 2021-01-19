@@ -27,33 +27,7 @@ public class Manager extends Employee {
         while (job.noPositions > 0) {
             if (i >= jobRequests.size())
                 break;
-
-            /*// approve
-            if (Application.getInstance().users.contains((User) jobRequests.get(i).getValue1())) {
-                // Remove user
-                Application.getInstance().remove((User) jobRequests.get(i).getValue1());
-                job.noPositions--;
-
-                // Get company department
-                Company company = Application.getInstance().getCompany(this.companyName);
-                Department jobDepartment = null;
-                for (Department department : company.departments) {
-                    if (department.jobs.contains(jobRequests.get(i).getKey())) {
-                        jobDepartment = department;
-                        break;
-                    }
-                }
-
-                // Convert user to employee and add it to jobDepartment
-                assert jobDepartment != null;
-                jobDepartment.employees.add(new Employee((User) jobRequests.get(i).getValue1(), this.companyName, 5000.0));
-
-                // Remove observer from all companies
-                for (Company comp : Application.getInstance().companies) {
-                    comp.removeObserver((User) jobRequests.get(i).getValue1());
-                }
-            }*/
-            approve(jobRequests.get(0));
+            approve(jobRequests.get(i));
 
             i++;
         }
@@ -102,6 +76,10 @@ public class Manager extends Employee {
     }
 
     public void deny(Request<Job, Consumer> request) {
+        if (request.getValue1() instanceof User)
+            ((User) request.getValue1()).notifications.add(
+                    new Notification("You were rejected on " + request.getKey().companyName
+                            + " " + request.getKey().jobName));
         requests.remove(request);
     }
 

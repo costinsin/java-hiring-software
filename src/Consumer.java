@@ -79,8 +79,11 @@ abstract class Consumer {
     }
 
     public Integer getGraduationYear() {
-        // TODO test & rework
-        return resume.education.last().endDate.getYear();
+        for (Education education : resume.education) {
+            if (education.educationLevel.equalsIgnoreCase("college"))
+                return education.endDate == null ? null : education.endDate.getYear();
+        }
+        return null;
     }
 
     public Double meanGPA() {

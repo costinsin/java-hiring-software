@@ -36,17 +36,6 @@ public class NotificationPage extends Page {
         notificationSpace.setAlignmentX(Component.LEFT_ALIGNMENT);
         for (Notification notification : user.notifications) {
             notificationSpace.add(new JNotification(notification).getPanel());
-            notificationSpace.add(new JNotification(notification).getPanel());
-            notificationSpace.add(new JNotification(notification).getPanel());
-            notificationSpace.add(new JNotification(notification).getPanel());
-            notificationSpace.add(new JNotification(notification).getPanel());
-            notificationSpace.add(new JNotification(notification).getPanel());
-            notificationSpace.add(new JNotification(notification).getPanel());
-            notificationSpace.add(new JNotification(notification).getPanel());
-            notificationSpace.add(new JNotification(notification).getPanel());
-            notificationSpace.add(new JNotification(notification).getPanel());
-            notificationSpace.add(new JNotification(notification).getPanel());
-            notificationSpace.add(new JNotification(notification).getPanel());
         }
     }
 
