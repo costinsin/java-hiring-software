@@ -1,11 +1,14 @@
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.Reader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 public class Test {
@@ -26,6 +29,11 @@ public class Test {
                 new FileReader("./test/companies.json"),
                 ArrayList.class
         );
+
+        // Create jobs
+        Type type = new TypeToken<ArrayList<Job>>(){}.getType();
+        ArrayList<Job> jobs =
+                gson.fromJson(new FileReader("./test/jobs.json"), type);
 
         Application instance = Application.getInstance();
 
@@ -61,7 +69,20 @@ public class Test {
                 if (recruiter.findCurrentExperience().company.equalsIgnoreCase(companyName)) {
                     for (Department department : company.departments) {
                         if (department.getClass().getName().equalsIgnoreCase("IT")) {
-                            department.add(new Recruiter(recruiter));
+                            Recruiter rec = new Recruiter(recruiter);
+                            department.add(rec);
+                            company.recruiters.add(rec);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            for (Job job : jobs) {
+                if (job.companyName.equalsIgnoreCase(companyName)) {
+                    for (Department department : company.departments) {
+                        if (department.getClass().getName().equalsIgnoreCase("IT")) {
+                            department.add(job);
                             break;
                         }
                     }
@@ -69,6 +90,28 @@ public class Test {
             }
 
             instance.add(company);
+        }
+
+        // Create consumer relationships
+        type = new TypeToken<HashMap<String, ArrayList<String>>>(){}.getType();
+        HashMap<String, ArrayList<String>> relationshipMap =
+                gson.fromJson(new FileReader("./test/relationship.json"), type);
+
+        for (Map.Entry<String, ArrayList<String>> entry : relationshipMap.entrySet()) {
+            Consumer consumer = LoginPage.findUser(entry.getKey().replace(" ", ""));
+            if (consumer == null)
+                continue;
+            for (String friend : entry.getValue()) {
+                consumer.add(LoginPage.findUser(friend.replace(" ", "")));
+            }
+        }
+
+
+        // All users apply to all jobs
+        for (Job job : jobs) {
+            for (User user : instance.users) {
+                job.apply(user);
+            }
         }
     }
 

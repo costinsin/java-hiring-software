@@ -1,0 +1,74 @@
+[
+    {
+        "jobName": "Software Developer Engineer",
+        "companyName": "Google",
+        "open": true,
+        "graduationYear": {
+            "lowerBound": 2002,
+            "upperBound": 2020
+        },
+        "experienceYears": {
+            "lowerBound": 2,
+            "upperBound": 6
+        },
+        "GPA": {
+            "lowerBound": 8,
+            "upperBound": null
+        },
+        "noPositions": 1
+    },
+    {
+        "jobName": "Software Developer Engineer Intern",
+        "companyName": "Google",
+        "open": true,
+        "graduationYear": {
+            "lowerBound": null,
+            "upperBound": null
+        },
+        "experienceYears": {
+            "lowerBound": 0,
+            "upperBound": 2
+        },
+        "GPA": {
+            "lowerBound": 9,
+            "upperBound": null
+        },
+        "noPositions": 1
+    },
+    {
+        "jobName": "Software Developer Engineer",
+        "companyName": "Amazon",
+        "open": true,
+        "graduationYear": {
+            "lowerBound": 2014,
+            "upperBound": 2020
+        },
+        "experienceYears": {
+            "lowerBound": 1,
+            "upperBound": null
+        },
+        "GPA": {
+            "lowerBound": 9,
+            "upperBound": null
+        },
+        "noPositions": 1
+    },
+    {
+        "jobName": "Software Developer Engineer Intern",
+        "companyName": "Amazon",
+        "open": true,
+        "graduationYear": {
+            "lowerBound": null,
+            "upperBound": null
+        },
+        "experienceYears": {
+            "lowerBound": 0,
+            "upperBound": 2
+        },
+        "GPA": {
+            "lowerBound": 9.35,
+            "upperBound": null
+        },
+        "noPositions": 1
+    }
+]

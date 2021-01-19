@@ -7,7 +7,7 @@ public class Job {
     int noPositions;
 
     public void apply(User user) {
-        if (open && meetsRequirments(user)) {
+        if (open /*&& meetsRequirments(user)*/) {
             Recruiter recruiter = Application.getInstance().getCompany(companyName).getRecruiter(user);
             recruiter.evaluate(this, user);
         }
@@ -24,6 +24,11 @@ public class Job {
             return false;
 
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return jobName;
     }
 
     @Override

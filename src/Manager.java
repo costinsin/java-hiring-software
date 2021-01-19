@@ -64,10 +64,14 @@ public class Manager extends Employee {
     }
 
     public int approve(Request<Job, Consumer> request) {
-        if (Application.getInstance().users.contains((User) request.getValue1())) {
+        if (Application.getInstance().users.contains((User) request.getValue1()) && request.getKey().open) {
             // Remove user
             Application.getInstance().remove((User) request.getValue1());
             request.getKey().noPositions--;
+
+            if (request.getKey().noPositions == 0) {
+                request.getKey().open = false;
+            }
 
             // Get company department
             Company company = Application.getInstance().getCompany(this.companyName);

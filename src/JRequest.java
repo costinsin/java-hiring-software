@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class JRequest {
+public class JRequest extends Page {
     private JPanel requestPanel;
     private JButton approveButton;
     private JButton denyButton;
@@ -19,12 +19,17 @@ public class JRequest {
                 + jobRequest.getValue1().resume.informatrion.getLastName());
         recruiterName.setText(jobRequest.getValue2().resume.informatrion.getFirstName() + " "
                 + jobRequest.getValue2().resume.informatrion.getLastName());
-        score.setText("Score: " + jobRequest.getScore());
+        score.setText("Score: " + String.format("%.2f", jobRequest.getScore()));
         approveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (manager.approve(jobRequest) == 0)
+                if (manager.approve(jobRequest) == 0) {
                     requestPanel.setVisible(false);
+                    changePage(new JobRequestPage(manager).getPanel());
+                }
+                else {
+                    JOptionPane.showMessageDialog(Frame.getInstance(), "Can't approve this request!");
+                }
             }
         });
         denyButton.addActionListener(new ActionListener() {
@@ -32,6 +37,7 @@ public class JRequest {
             public void actionPerformed(ActionEvent e) {
                 manager.deny(jobRequest);
                 requestPanel.setVisible(false);
+                changePage(new JobRequestPage(manager).getPanel());
             }
         });
     }

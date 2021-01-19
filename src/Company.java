@@ -77,7 +77,6 @@ public class Company implements Subject{
     }
 
     public Recruiter getRecruiter(User user) {
-        Vector<Recruiter> bestMatch = new Vector<>();
         Recruiter result = null;
         int maxDepth = 0;
 
@@ -87,13 +86,11 @@ public class Company implements Subject{
                 maxDepth = distance;
                 result = recruiter;
             } else if (distance == maxDepth) {
-                result = result.compareTo(recruiter) > 0 ? result : recruiter;
+                result = result.compareTo(recruiter) >= 0 ? result : recruiter;
             }
         }
 
-        Collections.sort(bestMatch);
-
-        return bestMatch.lastElement();
+        return result;
     }
 
     public ArrayList<Job> getJobs() {

@@ -222,6 +222,6 @@ abstract class Consumer {
 
     @Override
     public int hashCode() {
-        return Objects.hash(resume, friends);
+        return Objects.hash(resume, friends.toString());
     }
 }

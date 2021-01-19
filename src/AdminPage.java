@@ -79,6 +79,9 @@ public class AdminPage extends Page {
                     infoArea.setText(((Consumer) nodeContent).resume.toString());
                 else if (Department.class.isAssignableFrom(nodeContent.getClass())) {
                     infoArea.setText("Total Salary Budget: " + (Double) ((Department) nodeContent).getTotalSalaryBudget());
+                } else if (nodeContent.getClass().getName().equalsIgnoreCase("Job")) {
+                    Job job = (Job) nodeContent;
+                    infoArea.setText(job.jobName + " at " + job.companyName + " with " + job.noPositions + " open positions.");
                 }
             }
         });
