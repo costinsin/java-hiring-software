@@ -18,10 +18,10 @@ public class LoginPage extends Page {
                     return;
                 }
 
-                /*if (passwordField.getPassword().length < 3) {
+                if (passwordField.getPassword().length < 3) {
                     JOptionPane.showMessageDialog(Frame.getInstance(), "Password is too short");
                     return;
-                }*/
+                }
 
                 Consumer foundUser = findUser(usernameField.getText());
                 if (foundUser == null && !usernameField.getText().equalsIgnoreCase("admin")) {

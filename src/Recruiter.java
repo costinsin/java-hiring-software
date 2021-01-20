@@ -30,13 +30,6 @@ public class Recruiter extends Employee implements Comparable<Recruiter> {
 
     @Override
     public int compareTo(Recruiter o) {
-        /*
-        if (rating > o.rating)
-            return 1;
-        else if (rating < o.rating)
-            return -1;
-        return 0;
-        */
         return Double.compare(rating, o.rating);
     }
 
